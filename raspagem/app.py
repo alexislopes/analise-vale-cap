@@ -12,6 +12,7 @@ htmlBS = BeautifulSoup(response, 'html.parser')
 
 data = htmlBS.find('span', class_='pull-left dateTitle')
 
+
 listaDeSorteios = htmlBS.findAll('div', class_='row row-buffer10 sorteioItem')
 
 primeiroSorteio = listaDeSorteios[0]
