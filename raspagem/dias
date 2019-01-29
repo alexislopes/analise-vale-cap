@@ -1,0 +1,73 @@
+#Este arquivo contém todos os dias de sorteio em forma de XPath
+# DiasPorMes = [1, 4, 5, 4, 4 ,5, 4]
+# ClicksPorMes = [6, 5, 4, 3, 2, 1, 0]
+
+                    #JULHO 2018
+                    #6 CLICKS
+
+#DIA 29
+
+"/html/body/div[8]/div[1]/table/tbody/tr[6]/td[1]"
+
+                    #AGOSTO 2018
+                    #5 CLICKS
+
+#DIA 5
+
+"/html/body/div[8]/div[1]/table/tbody/tr[2]/td[1]"
+
+#DIA 12
+
+"/html/body/div[8]/div[1]/table/tbody/tr[3]/td[1]"
+
+#DIA 19
+
+"/html/body/div[8]/div[1]/table/tbody/tr[4]/td[1]"
+
+#DIA 26
+
+"/html/body/div[8]/div[1]/table/tbody/tr[5]/td[1]"
+
+                    #SETEMBRO DE 2018
+                    #4 CLICKS
+
+#DIA 2
+
+"/html/body/div[8]/div[1]/table/tbody/tr[2]/td[1]"
+
+#DIA 9
+
+"/html/body/div[8]/div[1]/table/tbody/tr[3]/td[1]"
+
+#DIA 16
+
+"/html/body/div[8]/div[1]/table/tbody/tr[4]/td[1]"
+
+#DIA 23
+
+"/html/body/div[8]/div[1]/table/tbody/tr[5]/td[1]"
+
+#DIA 30
+
+"/html/body/div[8]/div[1]/table/tbody/tr[6]/td[1]"
+
+                    #OUTUBRO 2018
+                    #3 CLICKS
+
+#DIA 7
+
+"/html/body/div[8]/div[1]/table/tbody/tr[2]/td[1]"
+
+#DIA 14
+
+"/html/body/div[8]/div[1]/table/tbody/tr[3]/td[1]"
+
+#DIA 21
+
+"/html/body/div[8]/div[1]/table/tbody/tr[4]/td[1]"
+
+#DIA 28
+
+"/html/body/div[8]/div[1]/table/tbody/tr[5]/td[1]"
+
+
