@@ -1,9 +1,11 @@
+#Este script percorre desde o primeiro dia de sorteios (29/07/2018) até o último dia (27/01/2019)
+#disponibilizados pelo site até o desenvolvimennto deste script.
+
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
 
 diasPorMes = [1, 4, 5, 4, 4 ,5, 4]
-clicksPorMes = [6, 1, 2, 3, 4, 5, 6]
 meses = 7
 
 driver = webdriver.Firefox()
@@ -21,50 +23,70 @@ def abreDatePicker():
 
     datepicker = driver.find_element_by_xpath('//*[@id="search-date-input"]')
     datepicker.click()
+    print('abri DatePicker\n')
+
+#vai até o primeiro dia de sorteio que encontra-se em julho de 2018
+def vaiParaJulho():
+    print('Indo para Julho')
+    prev = driver.find_element_by_xpath('/html/body/div[8]/div[1]/table/thead/tr[2]/th[1]')
+    for k in range(6):
+        time.sleep(1)
+        prev.click()
+
+#vai para o próximo mes
+def proximoMes():
+    next = driver.find_element_by_xpath('/html/body/div[8]/div[1]/table/thead/tr[2]/th[3]')
+    time.sleep(1)
+    next.click()
+    print('fui para o próximo mês')
+
+def pegaMesAno():
+    mesano = driver.find_element_by_xpath('/html/body/div[8]/div[1]/table/thead/tr[2]/th[2]')
+    mesanostr = str(mesano).replace(" ", " de ")
+    return  mesano.text.replace(" ", " de ")
+
+
+
+abreDatePicker()
+vaiParaJulho()
 
 for i in range(meses):
-
-    abreDatePicker()
-
     index = 0
-    if i == 0:
-        prev = driver.find_element_by_xpath('/html/body/div[8]/div[1]/table/thead/tr[2]/th[1]')
-        for k in range(clicksPorMes[i]):
-            time.sleep(1)
-            prev.click()
-
-    else:
-        next = driver.find_element_by_xpath('/html/body/div[8]/div[1]/table/thead/tr[2]/th[3]')
-        for l in range(clicksPorMes[i]):
-            time.sleep(1)
-            next.click()
-
-
-    if clicksPorMes[i] == 6:
-        print("ClicksPorMes[i]:", clicksPorMes[i])
-        index = 6
-    else:
-        print("ClicksPorMes[i]:", clicksPorMes[i])
-        index = i + 2
-
 
     for r in range(diasPorMes[i]):
+
+        if diasPorMes[i] == 1:
+            index = 6
+        else:
+            index = r + 2
+
+        print('O index é: \n', index)
+
         dia = driver.find_element_by_xpath('/html/body/div[8]/div[1]/table/tbody/tr[{}]/td[1]'.format(index))
+        print('Cliquei no dia {} de {}\n'.format(dia.text, pegaMesAno()))
         dia.click()
 
+
         driver.execute_script("scrollBy(0,-500);")
+        print('Scrollei\n')
 
         time.sleep(2)
 
         ir = driver.find_element_by_xpath('//*[@id="calendarSelectDate"]/div/div/div/div/div/div/button')
         ir.click()
+        print('Apertei ir\n')
 
         #raspa dados...
+        print('raspando dados...\n')
 
-        #se tiver mais dias...
-        if(r > 1):
-            abreDatePicker()
+        #espera a página carregar
+        time.sleep(3)
 
+        #abre DatePicker
+        abreDatePicker()
+
+
+    proximoMes()
     time.sleep(5)
 
     response = driver.execute_script('return document.documentElement.outerHTML')
