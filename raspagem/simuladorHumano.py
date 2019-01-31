@@ -4,6 +4,7 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
+from raspagem import script
 
 driver = webdriver.Firefox()
 url = 'http://valecaperegiao.com.br/resultados/'
@@ -44,21 +45,18 @@ def proximoMes():
 def mesAno():
     return driver.find_element_by_xpath('/html/body/div[8]/div[1]/table/thead/tr[2]/th[2]').text.replace(" ", " de ")
 
-def diaElement(i):
-    return driver.find_element_by_xpath('/html/body/div[8]/div[1]/table/tbody/tr[{}]/td[1]'.format(i))
+index = 0
 
-def formataData(i):
-    dataFormatada = diaElement(i).text + " de " + mesAno()
+def formataData(dia):
+    dataFormatada = dia.text + " de " + mesAno()
     return dataFormatada
 
-def formataDataToArqName(i):
-    return formataData(i).replace(" ", "_")
-
-
+def formataDataToArqName(dia):
+    return formataData(dia).replace(" ", "_")
 
 def run():
     for i in range(meses):
-        index = 0
+
 
         for r in range(diasPorMes[i]):
 
@@ -69,10 +67,12 @@ def run():
 
             print('O index é: \n', index)
 
-            dia = diaElement(index)
-            print('Cliquei no dia {}\n'.format(formataData(index)))
-            print('Cliquei no dia {}\n'.format(formataDataToArqName(index)))
+            dia = driver.find_element_by_xpath('/html/body/div[8]/div[1]/table/tbody/tr[{}]/td[1]'.format(index))
+            script.setData(formataDataToArqName(dia))
+            print('Cliquei no dia {}\n'.format(formataData(dia)))
+            print('Cliquei no dia {}\n'.format(formataDataToArqName(dia)))
             dia.click()
+
 
 
             driver.execute_script("scrollBy(0,-500);")
@@ -85,6 +85,7 @@ def run():
             print('Apertei ir\n')
 
             #raspa dados...
+            script.raspa()
             print('raspando dados...\n')
 
             #espera a página carregar
@@ -100,7 +101,7 @@ def run():
         response = driver.execute_script('return document.documentElement.outerHTML')
         htmlBS = BeautifulSoup(response, 'html.parser')
 
-abreDatePicker()
-vaiParaJulho()
-run()
+#abreDatePicker()
+#vaiParaJulho()
+#run()
 
