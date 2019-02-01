@@ -3,7 +3,7 @@ from selenium import webdriver
 import time
 import json
 import  pandas as pd
-
+from datetime import datetime
 
 
 driver = webdriver.Firefox()
@@ -12,7 +12,7 @@ driver.get(url)
 
 
 
-diasPorMes = [1, 4, 5, 4, 4 ,5, 4]
+diasPorMes = [1, 4, 5, 4, 4 ,4, 4]
 meses = 7
 
 index = 0
@@ -29,7 +29,7 @@ bairroS = []
 cidadeS = []
 pontoDeVendaS = []
 
-listaSorteios = []
+
 
 NUMERO = 0
 CERTIFICADO = 1
@@ -61,7 +61,7 @@ def abreDatePicker():
 def vaiParaJulho():
     print('Indo para Julho')
     prev = driver.find_element_by_xpath('/html/body/div[8]/div[1]/table/thead/tr[2]/th[1]')
-    for k in range(6):
+    for k in range(7):
         time.sleep(1)
         prev.click()
 
@@ -111,6 +111,7 @@ def criajsonarq(data):
     return arquivo
 
 def raspa():
+    listaSorteios = []
     time.sleep(5)
     print("DATAAAAAAAA: ", data)
 
@@ -163,12 +164,14 @@ def raspa():
                     ]
 
 
+        datasExcecoes = [x.get("Data") for x in excecoes]
 
-        for p in excecoes:
-            if data == p.get("Data"):
-                premio = p.get(str(i))
-            else:
-                premio = sorteio.find('div', class_='row row-bufferTop10').div.p.text
+        if data in datasExcecoes:
+            for c in range(len(excecoes)):
+                if data == excecoes[c].get("Data"):
+                    premio = excecoes[c].get(str(i))
+        else:
+            premio = sorteio.find('div', class_='row row-bufferTop10').div.p.text
 
 
         dezenasSorteadas = sorteio.findAll('span', class_='numberDicker pull-left')
@@ -246,13 +249,14 @@ def raspa():
             "Contemplados": listaContemplados
         }
 
+
         listaSorteios.append(sorteio)
 
         serilaized = json.dumps(listaSorteios, indent=3, ensure_ascii=False)
         jsonarq = criajsonarq(data.replace(" ", "_"))
         jsonarq.write(serilaized)
         jsonarq.close()
-        listaSorteios.clear()
+
 
         print("Largura das listas: \n"
               + "dataS: {}\n".format(len(dataS))
@@ -351,6 +355,7 @@ def run():
         #response = driver.execute_script('return document.documentElement.outerHTML')
         #htmlBS = BeautifulSoup(response, 'html.parser')
 
+
 abreDatePicker()
 
 vaiParaJulho()
@@ -358,4 +363,3 @@ vaiParaJulho()
 run()
 
 driver.close()
-

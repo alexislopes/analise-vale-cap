@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
 from raspagem import script
+from raspagem import browser as b
+
 
 driver = webdriver.Firefox()
 url = 'http://valecaperegiao.com.br/resultados/'
