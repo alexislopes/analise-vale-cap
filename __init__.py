@@ -130,35 +130,46 @@ def raspa():
         sorteio = listaDeSorteios[i]
         numeroDoPremio = sorteio.h4.text
 
-        if data == "23 de Setembro de 2018" or data == "7 de Outubro de 2018" or data == "14 de Outubro de 2018":
+        excecoes = [
+            {
+                "Data": "23 de Setembro de 2018",
+                "0" : "5 mil reais - valor líquido",
+                "1" : "10 mil reais - valor líquido",
+                "2" : "15 mil reais - valor líquido",
+                "3" : "300 mil reais - valor líquido"
+             },
+            {
+                "Data": "7 de Outubro de 2018",
+                "0": "5 mil reais - valor líquido",
+                "1": "10 mil reais - valor líquido",
+                "2": "15 mil reais - valor líquido",
+                "3": "500 mil reais - valor líquido"
+            },
+            {
+                "Data" : "14 de Outubro de 2018",
+                "0": "1 Fiat MOBI Easy Comfort 1.0 Flex 4P Mec. 0km Sugestão de uso do prêmio no valor líquido de R$ 34.500,00.",
+                "1": "1 Chevrolet ONIX Hatch Joy 1.0 8V Flex Mec. 4P 0km Sugestão de uso do prêmio no valor líquido de R$ 44.000,00.",
+                "2": "1 HB20 Unique 1.0 Flex Mec. 4P 0km Sugestão de uso do prêmio no valor líquido de R$ 44.000,00.",
+                "3": "1 Hilux Cabine Dupla SR 4X2 15V Flex AUT. 0km Sugestão de uso do prêmio no valor líquido de R$ 115.000,00."
 
-            if i == 0:
-                if data == "14 de Outubro de 2018":
-                    premio = "1 Fiat MOBI Easy Comfort 1.0 Flex 4P Mec. 0km Sugestão de uso do prêmio no valor líquido de R$ 34.500,00."
-                else:
-                    premio = "5 mil reais - valor líquido"
+            },
+            {
+                "Data": "21 de Outubro de 2018",
+                "0": "10 mil reais - valor líquido",
+                "1": "10 mil reais - valor líquido",
+                "2": "10 mil reais - valor líquido",
+                "3": "1 Casa no valor de 200.000,00 + 100.000,00 Sugestão de uso do prêmio no valor líquido de R$ 300.000,00."
+            }
+                    ]
 
-            elif i == 1:
-                if data == "14 de Outubro de 2018":
-                    premio = "1 Chevrolet ONIX Hatch Joy 1.0 8V Flex Mec. 4P 0km Sugestão de uso do prêmio no valor líquido de R$ 44.000,00."
-                else:
-                    premio = "10 mil reais - valor líquido"
 
-            elif i == 2:
-                if data == "14 de Outubro de 2018":
-                    premio = "1 HB20 Unique 1.0 Flex Mec. 4P 0km Sugestão de uso do prêmio no valor líquido de R$ 44.000,00."
-                else:
-                    premio = "15 mil reais - valor líquido"
+
+        for p in excecoes:
+            if data == p.get("Data"):
+                premio = p.get(str(i))
             else:
-                if data == "23 de Setembro de 2018":
-                    premio = "300 mil reais - valor líquido"
-                elif data == "14 de Outubro de 2018":
-                    premio = "1 Hilux Cabine Dupla SR 4X2 15V Flex AUT. 0km Sugestão de uso do prêmio no valor líquido de R$ 115.000,00."
-                else:
-                    premio = "500 mil reais - valor líquido"
+                premio = sorteio.find('div', class_='row row-bufferTop10').div.p.text
 
-        else:
-            premio = sorteio.find('div', class_='row row-bufferTop10').div.p.text
 
         dezenasSorteadas = sorteio.findAll('span', class_='numberDicker pull-left')
         contemplados = sorteio.findAll('div', class_='col-md-6 col-sm-6 col-xs-12 contemplated')
