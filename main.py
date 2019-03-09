@@ -3,7 +3,7 @@ from selenium import webdriver
 import time
 import json
 import  pandas as pd
-from datetime import datetime
+from raspagem import diffmes as diff
 
 
 driver = webdriver.Firefox()
@@ -12,8 +12,8 @@ driver.get(url)
 
 
 
-diasPorMes = [1, 4, 5, 4, 4 ,4, 4]
-meses = 7
+diasPorMes = [1, 4, 5, 4, 4 ,4, 4, 4, 1]
+meses = 9
 
 index = 0
 
@@ -61,7 +61,7 @@ def abreDatePicker():
 def vaiParaJulho():
     print('Indo para Julho')
     prev = driver.find_element_by_xpath('/html/body/div[8]/div[1]/table/thead/tr[2]/th[1]')
-    for k in range(7):
+    for k in range(9):
         time.sleep(1)
         prev.click()
 
@@ -73,19 +73,6 @@ def proximoMes():
     time.sleep(1)
     next.click()
     print('fui para o próximo mês')
-
-#def mesAno():
-#    return driver.find_element_by_xpath('/html/body/div[8]/div[1]/table/thead/tr[2]/th[2]').text.replace(" ", " de ")
-
-#def formataData(dia):
-#    dataFormatada = dia + " de " + mesAno()
-#    return dataFormatada
-
-#def formataDataToArqName(dia):
-#    formataData(dia).replace(" ", "_")
-
-#def pegaListaDeSorteios():
-#    return htmlBS.findAll('div', class_='row row-buffer10 sorteioItem')
 
 def limpa(string):
     palavra = str(string)
@@ -339,7 +326,7 @@ def run():
             print('Apertei ir\n')
 
             #raspa dados...
-            raspa()
+            #raspa()
             print('raspando dados...\n')
 
             #espera a página carregar

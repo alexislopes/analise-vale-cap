@@ -2,8 +2,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import pandas as pd
 import json
-from raspagem import arquivoManager as am
-from raspagem import simuladorHumano as sh
+
 
 NUMERO = 0
 CERTIFICADO = 1
@@ -20,7 +19,7 @@ driver.get(url)
 response = driver.execute_script('return document.documentElement.outerHTML')
 htmlBS = BeautifulSoup(response, 'html.parser')
 
-driver.quit()
+
 
 # Arrumar
 #data = htmlBS.find('span', class_='pull-left dateTitle').text
@@ -43,10 +42,6 @@ def limpa(string):
 
     return palavra.strip()
 
-
-
-
-
 #print('\tSORTEIO DO DIA {}\n'.format(data))
 
 numeroDoPremioS = []
@@ -60,11 +55,22 @@ bairroS = []
 cidadeS = []
 pontoDeVendaS = []
 
-date = ""
+date = driver.find_element_by_xpath("/html/body/div[1]/div/div/article/div/div[1]/div[2]/div/div/div/div/div/div/div[2]/div[2]/div/div/ul/li[1]/a/span").text
+date = date.replace("/", "-")
+print("DATAAAAAAAA", date)
 
 def setData(data):
     global date
     date = data
+
+def criacsv(data):
+    arquivo = open('../datasets/csv/sorteio_do_dia_{}.csv'.format(data), "w")
+    return arquivo
+
+
+def criajsonarq(data):
+    arquivo = open('../datasets/json/sorteio-do-dia-{}.json'.format(data), 'w')
+    return arquivo
 
 listaSorteios = []
 def raspa():
@@ -85,8 +91,6 @@ def raspa():
             dezenas.append(dezenasSorteadas[i].text)
         print('Dezenas Soreteadas: ', dezenas)
 
-        numeroDoPremioS.append(numeroDoPremio)
-        premioS.append(premio)
 
         for k in range(len(contemplados)):
             informacoes = contemplados[k].ul.findAll('li')
@@ -100,6 +104,9 @@ def raspa():
             strDezenas = ' '.join(e for e in dezenas)
             print(strDezenas)
             dezenasSorteadaS.append(strDezenas)
+
+            numeroDoPremioS.append(numeroDoPremio)
+            premioS.append(premio)
 
             numeroS.append(numero)
             certificadoS.append(certificado)
@@ -137,7 +144,7 @@ def raspa():
 
 
         serilaized = json.dumps(listaSorteios, indent=3, ensure_ascii=False)
-        jsonarq = am.criajsonarq(date)
+        jsonarq = criajsonarq(date)
         jsonarq.write(serilaized)
         jsonarq.close()
 
@@ -159,3 +166,7 @@ def raspa():
     df.reset_index()
 
     df.to_csv(path_or_buf=criacsv())
+
+raspa()
+
+driver.quit()
