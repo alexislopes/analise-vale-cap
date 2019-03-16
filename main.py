@@ -4,11 +4,14 @@ import time
 import json
 import  pandas as pd
 from raspagem import diffmes as diff
+from cliente import valeRESTclient as cliente
 
 
 driver = webdriver.Firefox()
 url = 'http://valecaperegiao.com.br/resultados/'
 driver.get(url)
+
+months = {"Janeiro" : 1, "Fevereiro" : 2, "Março" : 3, "Abril" : 4, "Maio" : 5, "Junho" : 6, "Julho" : 7, "Agosto" : 8, "Setembro" : 9, "Outubro" : 10, "Novembro" : 11, "Dezembro" : 12}
 
 
 
@@ -87,6 +90,10 @@ def limpa(string):
         palavra = palavra.replace('Bairro:', "")
 
     return palavra.strip()
+
+def salva_no_bd(dia):
+    cliente.salva_dia(dia)
+
 
 def criacsv(data):
     arquivo = open('datasets/csv/sorteio_do_dia_{}.csv'.format(data), "w")
